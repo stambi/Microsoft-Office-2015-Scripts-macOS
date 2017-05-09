@@ -44,7 +44,7 @@ done
 
 #Forget Package Receipts
 echo "###### Forget Package Receipts ######" >> $logfile
-for pkg in "Excel" "OneNote.app" "PowerPoint" "Word"
+for pkg in "Excel" "OneNote" "PowerPoint" "Word"
 do
   pkgname=$(pkgutil --pkgs | grep $pkg)
 
