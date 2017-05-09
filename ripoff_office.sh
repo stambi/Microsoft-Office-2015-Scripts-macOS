@@ -49,8 +49,8 @@ do
   pkgname=$(pkgutil --pkgs | grep $pkg)
 
   if [ -n "$pkgname" ]; then
-    pkgutil --forget com.microsoft.package.Microsoft_$pkg.app
-    echo "$(date): Forget Package Receipts: com.microsoft.package.Microsoft_$pkg.app" >> $logfile
+    pkgutil --forget com.microsoft.package.Microsoft_$pkg
+    echo "$(date): Forget Package Receipts: com.microsoft.package.Microsoft_$pkg" >> $logfile
   fi
 done
 
