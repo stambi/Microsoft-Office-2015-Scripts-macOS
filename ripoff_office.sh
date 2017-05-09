@@ -55,7 +55,7 @@ do
 done
 
 #Remove from item from dock
-
+echo "###### Remove Items from Dock ######" >> $logfile
 dloc=$(defaults read com.apple.dock persistent-apps | grep _CFURLString\" | awk '/Microsoft%20Word.app/ {print NR-1}')
 if [ -n "$dloc" ]; then
   /usr/libexec/PlistBuddy -c "Delete persistent-apps:$dloc" ~/Library/Preferences/com.apple.dock.plist
@@ -81,6 +81,5 @@ if [ -n "$dloc" ]; then
 fi
 
 killall Dock
-echo "$(date): Dock: Items removed from Dock" >> $logfile
 
 echo "###### Office 2016 removed ######" >> $logfile
