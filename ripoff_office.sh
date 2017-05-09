@@ -47,39 +47,25 @@ echo "###### Forget Package Receipts ######" >> $logfile
 for pkg in "Excel" "OneNote" "PowerPoint" "Word"
 do
   pkgname=$(pkgutil --pkgs | grep $pkg)
-
   if [ -n "$pkgname" ]; then
-    pkgutil --forget com.microsoft.package.Microsoft_$pkg
-    echo "$(date): Forget Package Receipts: com.microsoft.package.Microsoft_$pkg" >> $logfile
+    pkgutil --forget com.microsoft.package.Microsoft_$pkg.app
+    echo "$(date): Forget Package Receipts: com.microsoft.package.Microsoft_$pkg.app" >> $logfile
   fi
 done
 
-#Remove item from dock
-echo "###### Remove Items from Dock ######" >> $logfile
-dloc=$(defaults read "/Users/$loggedinuser/Library/Preferences/com.apple.dock.plist" persistent-apps | grep _CFURLString\" | awk '/Microsoft%20Word.app/ {print NR-1}')
-if [ -n "$dloc" ]; then
-  /usr/libexec/PlistBuddy -c "Delete persistent-apps:$dloc" ~/Library/Preferences/com.apple.dock.plist
-  echo "$(date): $dloc removed from dock" >> $logfile
-fi
 
-dloc=$(defaults read "/Users/$loggedinuser/Library/Preferences/com.apple.dock.plist" persistent-apps | grep _CFURLString\" | awk '/Microsoft%20OneNote.app/ {print NR-1}')
-if [ -n "$dloc" ]; then
-  /usr/libexec/PlistBuddy -c "Delete persistent-apps:$dloc" ~/Library/Preferences/com.apple.dock.plist
-  echo "$(date): $dloc removed from dock" >> $logfile
-fi
-
-dloc=$(defaults read "/Users/$loggedinuser/Library/Preferences/com.apple.dock.plist" persistent-apps | grep _CFURLString\" | awk '/Microsoft%20PowerPoint.app/ {print NR-1}')
-if [ -n "$dloc" ]; then
-  /usr/libexec/PlistBuddy -c "Delete persistent-apps:$dloc" ~/Library/Preferences/com.apple.dock.plist
-  echo "$(date): $dloc removed from dock" >> $logfile
-fi
-
-dloc=$(defaults read "/Users/$loggedinuser/Library/Preferences/com.apple.dock.plist" persistent-apps | grep _CFURLString\" | awk '/Microsoft%20Excel.app/ {print NR-1}')
-if [ -n "$dloc" ]; then
-  /usr/libexec/PlistBuddy -c "Delete persistent-apps:$dloc" ~/Library/Preferences/com.apple.dock.plist
-  echo "$(date): $dloc removed from dock" >> $logfile
-fi
+#Remove items from dock
+echo "###### Forget Package Receipts ######" >> $logfile
+for dockitem in "Microsoft%20Word.app" "Microsoft%20OneNote.app" "Microsoft%20PowerPoint.app" "Microsoft%20Excel.app"
+do
+dloc=$(defaults read "/Users/$loggedinuser/Library/Preferences/com.apple.dock.plist" persistent-apps | grep _CFURLString\" | awk -v x="$dockitem" '$0~x {print NR-1}')
+  if [ -n "$dloc" ]; then
+    /usr/libexec/PlistBuddy -c "Delete persistent-apps:$dloc" "/Users/$loggedinuser/Library/Preferences/com.apple.dock.plist"
+    echo "$(date): $dloc removed from dock" >> $logfile
+  fi
+done
 
 killall Dock
+echo "$(date): Dock: Items removed from Dock" >> $logfile
 
 echo "###### Office 2016 removed ######" >> $logfile
