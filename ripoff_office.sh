@@ -54,7 +54,7 @@ do
   fi
 done
 
-#Remove from item from dock
+#Remove item from dock
 echo "###### Remove Items from Dock ######" >> $logfile
 dloc=$(defaults read com.apple.dock persistent-apps | grep _CFURLString\" | awk '/Microsoft%20Word.app/ {print NR-1}')
 if [ -n "$dloc" ]; then
