@@ -15,15 +15,12 @@ osascript -e 'try' -e 'quit app "Microsoft Word"' -e 'end try'
 osascript -e 'try' -e 'quit app "Microsoft Excel"' -e 'end try'
 osascript -e 'try' -e 'quit app "Microsoft PowerPoint"' -e 'end try'
 osascript -e 'try' -e 'quit app "Microsoft OneNote"' -e 'end try'
-
-sleep 10
-
+sleep 5
 # Force quit if there are still running Office applications.
 killall "Microsoft Word"
 killall "Microsoft Excel"
 killall "Microsoft PowerPoint"
 killall "Microsoft OneNote"
-
 sleep 5
 
 
@@ -73,13 +70,13 @@ done
 
 
 #Remove items from dock
-echo "###### Forget Package Receipts ######" >> $logfile
+echo "###### Remove from Dock ######" >> $logfile
 for dockitem in "Microsoft%20Word.app" "Microsoft%20OneNote.app" "Microsoft%20PowerPoint.app" "Microsoft%20Excel.app"
 do
 dloc=$(defaults read "/Users/$loggedinuser/Library/Preferences/com.apple.dock.plist" persistent-apps | grep _CFURLString\" | awk -v x="$dockitem" '$0~x {print NR-1}')
   if [ -n "$dloc" ]; then
-    /usr/libexec/PlistBuddy -c "Delete persistent-apps:$dloc" "/Users/$loggedinuser/Library/Preferences/com.apple.dock.plist"
-    echo "$(date): $dloc removed from dock" >> $logfile
+    /usr/libexec/PlistBuddy -c "Delete persistent-apps:$doc" "/Users/$loggedinuser/Library/Preferences/com.apple.dock.plist"
+    echo "$(date): $dockitem removed from dock" >> $logfile
   fi
 done
 
