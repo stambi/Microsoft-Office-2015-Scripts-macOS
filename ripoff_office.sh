@@ -4,9 +4,27 @@
 #RipOff Microsoft Office 356 - leave Outlook & Outlook db's installed
 ######
 
-#Get loggedin Users
-loggedinuser=$(ls -l /dev/console | awk '{ print $3 }')
+#Set Variables
+loggedinuser=$(/usr/bin/python -c 'from SystemConfiguration import SCDynamicStoreCopyConsoleUser; import sys; username = (SCDynamicStoreCopyConsoleUser(None, None, None) or [None])[0]; username = [username,""][username in [u"loginwindow", None, u""]]; sys.stdout.write(username + "\n");')
 logfile=/tmp/officeripoff.log
+
+
+#Close Applications
+# Friendly close Office applications if open
+osascript -e 'try' -e 'quit app "Microsoft Word"' -e 'end try'
+osascript -e 'try' -e 'quit app "Microsoft Excel"' -e 'end try'
+osascript -e 'try' -e 'quit app "Microsoft PowerPoint"' -e 'end try'
+osascript -e 'try' -e 'quit app "Microsoft OneNote"' -e 'end try'
+
+sleep 10
+
+# Force quit if there are still running Office applications.
+killall "Microsoft Word"
+killall "Microsoft Excel"
+killall "Microsoft PowerPoint"
+killall "Microsoft OneNote"
+
+sleep 5
 
 
 #Delete in Appliactions Folder
@@ -69,3 +87,4 @@ killall Dock
 echo "$(date): Dock: Items removed from Dock" >> $logfile
 
 echo "###### Office 2016 removed ######" >> $logfile
+exit 0
