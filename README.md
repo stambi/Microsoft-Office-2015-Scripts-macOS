@@ -1,5 +1,5 @@
-# Microsoft-Office-2015-Scripts-macOS
-Microsoft Office 2016 Scripts
+# Microsoft-Office-Scripts-macOS
+Microsoft Office Scripts
 
 **ripoff_office.sh**                  ->    Delete all Office 2016 relevant files and folders.
 
